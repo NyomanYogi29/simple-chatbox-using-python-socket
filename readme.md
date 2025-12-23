@@ -20,15 +20,14 @@ Pastikan Python 3.x sudah terinstall di komputer Anda. Library yang digunakan ad
 * `threading`: Untuk menangani banyak proses klien secara bersamaan.
 * `tkinter`: Untuk antarmuka grafis (GUI).
 
-## ⚙️ Konfigurasi IP Address
+## Konfigurasi IP Address
 
 Sebelum menjalankan aplikasi, **penting** untuk menyesuaikan alamat IP server pada file `client.py`.
 
 1.  Buka file `client.py`.
 2.  Cari baris berikut (sekitar baris 9):
     ```python
-    # self.HOST = socket.gethostname()
-    self.HOST = "10.50.184.2" 
+    self.HOST = socket.gethostname()
     ```
 3.  Ubah `self.HOST` sesuai kebutuhan:
     * Jika menjalankan Server dan Client di **satu komputer yang sama**, ubah menjadi `"127.0.0.1"` atau `"localhost"`.
