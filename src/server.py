@@ -1,0 +1,55 @@
+import socket
+import threading
+
+HOST = '0.0.0.0'
+PORT = 55555
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((HOST, PORT))
+server.listen()
+
+clients = []
+nicknames = []
+
+def broadcast(message):
+    for client in clients:
+        try:
+            client.send(message)
+        except:
+            pass
+
+def handle(client):
+    while True:
+        try:
+            message = client.recv(1024)
+            broadcast(message)
+        except:
+            if client in clients:
+                index = clients.index(client)
+                clients.remove(client)
+                client.close()
+                nickname = nicknames[index]
+                broadcast(f'{nickname} meninggalkan chat!'.encode('utf-8'))
+                nicknames.remove(nickname)
+                break
+
+def receive():
+    print(f"Server berjalan di {HOST}:{PORT}...")
+    while True:
+        client, address = server.accept()
+        print(f"Terhubung dengan {str(address)}")
+
+        client.send('NICK'.encode('utf-8'))
+        nickname = client.recv(1024).decode('utf-8')
+        nicknames.append(nickname)
+        clients.append(client)
+
+        print(f"Nickname client adalah {nickname}")
+        broadcast(f"{nickname} bergabung ke dalam chat!".encode('utf-8'))
+        client.send('Terhubung ke server!'.encode('utf-8'))
+
+        thread = threading.Thread(target=handle, args=(client,))
+        thread.start()
+
+if __name__ == "__main__":
+    receive()
