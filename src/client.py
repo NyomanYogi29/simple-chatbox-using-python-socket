@@ -5,8 +5,7 @@ from tkinter import scrolledtext, simpledialog, messagebox
 
 class ChatClient:
     def __init__(self):
-        # self.HOST = socket.gethostname()
-        self.HOST = "10.50.184.2"
+        self.HOST = socket.gethostname()
         self.PORT = 55555
 
         self.root = tk.Tk()
